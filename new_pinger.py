@@ -91,9 +91,14 @@ class MultiPing:
                 sys.exit(f"Error parsing YAML file: {e}")
         if "hosts" not in data:
             sys.exit("YAML file must contain a 'hosts' key.")
+        self_ips = []
+        if "ignore_self" in data:
+            self_ips = subprocess.check_output(["hostname", "-I"]).decode().strip().split()
         for host_item in data["hosts"]:
             # Each item is a dict with a single key: the IP address.
             for ip, details in host_item.items():
+                if ip in self_ips:
+                    continue
                 description = details.get("description", ip)
                 tests = []
                 test_list = details.get("tests", None)
