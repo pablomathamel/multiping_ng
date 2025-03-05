@@ -1,0 +1,12 @@
+hosts:
+  - "192.168.1.1":
+      description: "Router"
+      tests:
+        - protocol: "ICMP"
+  - "192.168.1.100":
+      description: "Web Server"
+      tests:
+        - protocol: "TCP"
+          port: 80
+        - protocol: "TCP"
+          port: "8000-8002"
