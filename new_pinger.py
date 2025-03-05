@@ -92,7 +92,8 @@ class MultiPing:
         if "hosts" not in data:
             sys.exit("YAML file must contain a 'hosts' key.")
         self_ips = []
-        if "ignore_self" in data:
+        if "ignore_self" in data and data["ignore_self"]:
+            # Get the list of IP addresses assigned to this host.
             self_ips = subprocess.check_output(["hostname", "-I"]).decode().strip().split()
         for host_item in data["hosts"]:
             # Each item is a dict with a single key: the IP address.
