@@ -253,7 +253,7 @@ class MultiPing:
                     label = f"TCP port {test.port}"
                     status_plain = "DOWN" if test.latency == -1 else f"{test.latency:.1f}ms"
                     status = f"{BOLD}{RED}DOWN{RESET}" if test.latency == -1 else status_plain
-                history = test.get_history_string(self.current_index, self.history_length)
+                history = test.get_history_string(self.current_index -1, self.history_length)
                 status_formatted = format_status(status, 10)
                 row = f"{label:<15} {status_formatted}   {history:<35}  {test.last_seen}"
                 print("    " + row)
