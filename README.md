@@ -29,6 +29,7 @@ MultiPing NG is a Python-based network monitoring tool that continuously checks 
    Create a YAML file (e.g., `config.yaml`) that specifies the hosts and tests. A sample configuration might look like this:
 
    ```yaml
+   ignore_self: true
    hosts:
      - "192.168.1.1":
          description: "Router"
@@ -46,6 +47,7 @@ MultiPing NG is a Python-based network monitoring tool that continuously checks 
    In this example, the script will:
    - Ping the host at `192.168.1.1`.
    - For the host at `192.168.1.100`, perform a TCP connection test on port 80 and a range of ports from 8000 to 8002.
+   - Ignore the local host IP in case it is found in the list. This is useful in case you want to copy paste the same file in multiple hosts that should test each other
 
 2. **Run the Script:**  
    Ensure the script is executable. You can set the executable permission with:
