@@ -239,7 +239,8 @@ class MultiPing:
     def display_results(self):
         """Clear the screen and display test results in organized columns."""
         clear_screen()
-        print(f"{BOLD}\n\nMultiPing NG - {RESET}{time.strftime('%c')}\n")
+        print(f"{BOLD}\n\nMultiPing NG - {RESET}{time.strftime('%c')}\n\n")
+        print(f"Running on {socket.gethostname()} ({socket.gethostbyname(socket.gethostname())})\n\n")
         for host in self.hosts:
             print(f"{BOLD}{host.description:<20}{RESET} ({host.ip})")
             header = f"{'Test':<15} {'Status':>10}   {'History':<35}  {'Last Seen'}"
