@@ -94,7 +94,7 @@ class MultiPing:
         self_ips = []
         if "ignore_self" in data and data["ignore_self"]:
             # Get the list of IP addresses assigned to this host.
-            self_ips = subprocess.check_output(["hostname", "-I"]).decode().strip().split()
+            self_ips = subprocess.check_output(["hostname", "-i"]).decode().strip().split()
         for host_item in data["hosts"]:
             # Each item is a dict with a single key: the IP address.
             for ip, details in host_item.items():
@@ -147,7 +147,7 @@ class MultiPing:
         if up:
             # Match the round-trip statistics line:
             # e.g., "round-trip min/avg/max/stddev = 15.086/15.086/15.086/0.000 ms"
-            regex = r"([\d\.]+)/([\d\.]+)/([\d\.]+)/((?:[\d\.]+|nan))\s*ms"
+            regex = r"([\d\.]+)/([\d\.]+)/((?:[\d\.]+|nan))\s*ms"
             m = re.search(regex, stdout)
             if m:
                 try:
@@ -236,6 +236,9 @@ class MultiPing:
                         test.update_history(self.current_index, "X")
                         test.service = "closed"
 
+    def colorize_history(self, history_str):
+        return ''.join(f"{GREEN}.{RESET}" if c == '.' else f"{RED}X{RESET}" for c in history_str)
+
     def display_results(self):
         """Clear the screen and display test results in organized columns."""
         clear_screen()
@@ -256,7 +259,7 @@ class MultiPing:
                     status = f"{BOLD}{RED}DOWN{RESET}" if test.latency == -1 else status_plain
                 history = test.get_history_string(self.current_index -1, self.history_length)
                 status_formatted = format_status(status, 10)
-                row = f"{label:<15} {status_formatted}   {history:<35}  {test.last_seen}"
+                row = f"{label:<15} {status_formatted}   {(self.colorize_history(history)):<35}  {test.last_seen}"
                 print("    " + row)
             print()
 
@@ -278,4 +281,4 @@ if __name__ == "__main__":
         multiping.run()
     except KeyboardInterrupt:
         print("\nExiting...")
-        sys.exit(0) 
+        sys.exit(0)
