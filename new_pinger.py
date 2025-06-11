@@ -94,7 +94,7 @@ class MultiPing:
         self_ips = []
         if "ignore_self" in data and data["ignore_self"]:
             # Get the list of IP addresses assigned to this host.
-            self_ips = subprocess.check_output(["hostname", "-i"]).decode().strip().split()
+            self_ips = subprocess.check_output(["hostname", "-I"]).decode().strip().split()
         for host_item in data["hosts"]:
             # Each item is a dict with a single key: the IP address.
             for ip, details in host_item.items():
@@ -147,7 +147,7 @@ class MultiPing:
         if up:
             # Match the round-trip statistics line:
             # e.g., "round-trip min/avg/max/stddev = 15.086/15.086/15.086/0.000 ms"
-            regex = r"([\d\.]+)/([\d\.]+)/((?:[\d\.]+|nan))\s*ms"
+            regex = r"([\d\.]+)/([\d\.]+)/([\d\.]+)/((?:[\d\.]+|nan))\s*ms"
             m = re.search(regex, stdout)
             if m:
                 try:
